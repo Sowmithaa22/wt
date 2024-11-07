@@ -1,0 +1,260 @@
+<<<<<<<<<<<<<<<<BLOG>>>>>>>>>>>>>>>>>>
+-- Step 1: Create the Database
+CREATE DATABASE blog;
+USE blog;
+
+-- Step 2: Create the Users Table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Step 3: Create the Posts Table
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Step 4: Create the Comments Table
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Step 5: Insert Sample Data into the Users Table
+INSERT INTO users (username, email, password) VALUES
+('alice', 'alice@example.com', 'password_hash1'),
+('bob', 'bob@example.com', 'password_hash2'),
+('charlie', 'charlie@example.com', 'password_hash3');
+
+-- Step 6: Insert Sample Data into the Posts Table
+INSERT INTO posts (user_id, title, content) VALUES
+(1, 'The Future of AI', 'In this post, we discuss the future trends in artificial intelligence and machine learning.'),
+(2, 'How to Stay Productive', 'This post provides tips and tricks for maintaining high productivity levels in your personal life.'),
+(3, 'Top 10 Destinations in Europe', 'Discover the best travel destinations in Europe, from cultural hotspots to nature retreats.');
+
+-- Step 7: Insert Sample Data into the Comments Table
+INSERT INTO comments (post_id, user_id, content) VALUES
+(1, 2, 'This article provides great insights into AI trends!'),
+(2, 3, 'I loved the productivity tips. They are very helpful!'),
+(3, 1, 'These travel destinations look amazing! I will definitely visit some of them soon.');
+
+
+<<<<<<<<<<<<JOB PORTAL>>>>>>>>>>>>>>
+create database job_portal;
+use job_portal;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    role ENUM('job_seeker', 'employer') NOT NULL
+);
+-- Table for job postings
+CREATE TABLE jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    employer_id INT NOT NULL,
+    FOREIGN KEY (employer_id) REFERENCES users(id)
+);
+
+-- Table for job applications
+CREATE TABLE applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    job_id INT NOT NULL,
+    user_id INT NOT NULL,
+    status ENUM('pending', 'interview', 'hired', 'rejected') DEFAULT 'pending',
+    FOREIGN KEY (job_id) REFERENCES jobs(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+INSERT INTO users (username, password, email, role) VALUES
+('john_doe', 'password123', 'john.doe@example.com', 'job_seeker'),
+('jane_smith', 'securepass456', 'jane.smith@company.com', 'employer'),
+('alice_jones', 'mypassword789', 'alice.jones@example.com', 'job_seeker'),
+('bob_martin', 'secretpassword321', 'bob.martin@company.com', 'employer');
+
+INSERT INTO jobs (title, description, employer_id) VALUES
+('Software Engineer', 'Responsible for developing and maintaining software applications.', 2),
+('Data Scientist', 'Work with large datasets to create data-driven insights and predictive models.', 4),
+('Product Manager', 'Lead product development, collaborate with teams to build product features.', 2),
+('UX Designer', 'Design user interfaces for web and mobile applications.', 4);
+
+
+INSERT INTO applications (job_id, user_id, status) VALUES
+(1, 1, 'pending'),
+(2, 3, 'interview'),
+(3, 1, 'hired'),
+(4, 3, 'rejected'),
+(1, 2, 'pending');
+
+<<<<<<<<<<<<<<SOCIAL MEDIA>>>>>>>>>>>>>>>>>
+
+create database social;
+use social;
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE follows (
+    follower_id INT NOT NULL,
+    following_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (follower_id, following_id),
+    FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+INSERT INTO users (username, email, password) VALUES
+('alice', 'alice@example.com', 'password_hash1'),
+('bob', 'bob@example.com', 'password_hash2'),
+('charlie', 'charlie@example.com', 'password_hash3'),
+('dave', 'dave@example.com', 'password_hash4'),
+('eve', 'eve@example.com', 'password_hash5');
+
+
+INSERT INTO follows (follower_id, following_id) VALUES
+(1, 2),  -- Alice follows Bob
+(1, 3),  -- Alice follows Charlie
+(2, 3),  -- Bob follows Charlie
+(3, 1),  -- Charlie follows Alice
+(4, 5),  -- Dave follows Eve
+(5, 1);  -- Eve follows Alice
+
+
+INSERT INTO posts (user_id, content) VALUES
+(1, 'Hello world! This is Alice’s first post.'),
+(2, 'Bob here! Loving this new platform.'),
+(3, 'Charlie reporting in with a fresh post.'),
+(1, 'Alice again! Just had a great day.'),
+(4, 'Dave checking in. Excited to connect with everyone!'),
+(5, 'Eve’s first post! Looking forward to sharing more.'),
+(2, 'Bob’s second post, sharing some interesting thoughts.'),
+(3, 'Charlie’s second post, keeping it interesting!');
+
+<<<<<<<<<<<<<<<<<<<E-COMMERCE>>>>>>>>>>>>>>>>>>>>
+
+CREATE DATABASE ecommerce;
+USE ecommerce;
+-- Users Table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Products Table
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL
+);
+
+-- Orders Table
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    total DECIMAL(10, 2),
+    status VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+INSERT INTO users (name, email, password) VALUES
+('Alice Smith', 'alice.smith@example.com', 'password123'),
+('Bob Johnson', 'bob.johnson@example.com', 'password456'),
+('Charlie Brown', 'charlie.brown@example.com', 'password789'),
+('Diana Green', 'diana.green@example.com', 'password101'),
+('Eve White', 'eve.white@example.com', 'password202');
+
+
+INSERT INTO products (name, description, price, stock) VALUES
+('Wireless Mouse', 'A high-quality wireless mouse with ergonomic design.', 25.99, 150),
+('Bluetooth Headphones', 'Over-ear Bluetooth headphones with noise cancellation.', 89.99, 200),
+('Smartphone Case', 'Durable silicone case for various smartphone models.', 12.50, 500),
+('Gaming Laptop', 'High-performance laptop with 16GB RAM, 512GB SSD, and a powerful GPU.', 1200.00, 50),
+('LED Desk Lamp', 'Adjustable LED desk lamp with touch control and color settings.', 39.99, 80);
+
+
+
+INSERT INTO orders (user_id, total, status) VALUES
+(1, 89.99, 'Completed'),
+(2, 1200.00, 'Pending'),
+(3, 25.99, 'Completed'),
+(4, 103.99, 'Shipped'),
+(5, 39.99, 'Completed');
+
+
+
+<<<<<<<<<<<<<<<<<<<<LEARNING PLATFORM>>>>>>>>>>>>>>>>>
+create database learning;
+use learning;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('student', 'instructor') NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE courses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    instructor_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (instructor_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE discussions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    course_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+INSERT INTO users (username, password, role, email) VALUES 
+('john_instructor', 'hashed_password_here', 'instructor', 'john@example.com'),
+('alice_student', 'hashed_password_here', 'student', 'alice@example.com'),
+('bob_student', 'hashed_password_here', 'student', 'bob@example.com');
+
+INSERT INTO courses (title, description, instructor_id) VALUES 
+('Web Development 101', 'Introduction to web development using HTML, CSS, and JavaScript', 1);
+INSERT INTO discussions (course_id, user_id, content) VALUES
+(1, 2, 'This course is really informative!'),
+(1, 3, 'I am excited to learn web development.');
+
+
